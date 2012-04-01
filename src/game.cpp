@@ -55,6 +55,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "quicktune_shortcutter.h"
 #include "clientmap.h"
 #include "sky.h"
+#include "PostProcessBloom.h"
 
 /*
 	Setting this to 1 enables a special camera mode that forces
@@ -1006,6 +1007,15 @@ void the_game(
 
 	float time_of_day = 0;
 	float time_of_day_smooth = 0;
+
+	// shader initialization
+	IPostProcessBloom *Bloom = new IPostProcessBloom(smgr->getRootSceneNode(), smgr, 666);
+	PPE_Bloom_Setup setup;
+
+	setup.sampleDist=0.008;
+	setup.strength=3;
+	setup.multiplier=5;
+	Bloom->initiate(1024,512,setup,smgr);
 
 	/*
 		Main loop
@@ -2429,7 +2439,11 @@ void the_game(
 		//infostream<<"smgr->drawAll()"<<std::endl;
 		{
 			TimeTaker timer("smgr");
-			smgr->drawAll();
+			driver->setRenderTarget(Bloom->rt0, true, true, video::SColor(0,0,0,0)); //First Render The entire scene into the renderTarget
+			smgr->drawAll();                                                          //of the PostProcess
+			driver->setRenderTarget(0);                                               //set The Rendertarget back to the main view
+			Bloom->render();                                                          //Then let the  Post Process Render himself
+			//driver->endScene();                                                       //thats all^^ quite simple isn´t it? 
 			scenetime = timer.stop(true);
 		}
 		
