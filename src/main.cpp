@@ -1111,6 +1111,7 @@ int main(int argc, char *argv[])
 
 	video::E_DRIVER_TYPE driverType;
 	
+	// TODO: commented because the GLSL shader works only in opengl
 	/*std::string driverstring = g_settings->get("video_driver");
 
 	if(driverstring == "null")

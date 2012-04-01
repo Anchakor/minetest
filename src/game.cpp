@@ -17,7 +17,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+// TODO: reorder - includes irrlicht.h, but caused compilation errors when on the end of include list
 #include "PostProcessBloom.h"
+
 #include "game.h"
 #include "common_irrlicht.h"
 #include <IGUICheckBox.h>
