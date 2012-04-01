@@ -1,6 +1,6 @@
 #ifndef __POST_PROCESS_EFFECT_BLOOM__
 #define __POST_PROCESS_EFFECT_BLOOM__
-#include "irrlicht.h"
+#include <irrlicht.h>
 #include <cstdlib>
 
 using namespace std;
@@ -28,7 +28,7 @@ public:
 
   virtual void OnSetConstants(video::IMaterialRendererServices* services, s32 userData)
   {
-    video::IVideoDriver* driver = services->getVideoDriver();
+    //video::IVideoDriver* driver = services->getVideoDriver();
     services->setVertexShaderConstant("sampleDist", reinterpret_cast<f32*>(&sampleDist),1);
     services->setVertexShaderConstant("strength", reinterpret_cast<f32*>(&strength),1);
     services->setVertexShaderConstant("multiplier", reinterpret_cast<f32*>(&multiplier),1);
@@ -69,7 +69,7 @@ static stringc vertShader =
   " vec2 Position;"
   " Position.xy = sign(gl_Vertex.xy);"
   " gl_Position = vec4(Position.xy, 0.0, 1.0);"
-   "vTexCoord =Position.xy *.5 + .5;"
+   "vTexCoord = Position.xy * 0.5 + 0.5;"
 "}";
 
 static stringc fragShader =
@@ -122,10 +122,10 @@ video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices();
                fragShader.c_str(), "main", video::EPST_PS_1_1,
                callback, (video::EMT_SOLID)
         );
-      rt0 = driver->createRenderTargetTexture(core::dimension2d<s32>(sizeW,sizeH));
+      rt0 = driver->addRenderTargetTexture(core::dimension2d<u32>(sizeW,sizeH));
       Material.Wireframe = false;
       Material.Lighting = false;
-      Material.Textures[0]=rt0;
+      Material.setTexture(0,rt0);
     }
 
 

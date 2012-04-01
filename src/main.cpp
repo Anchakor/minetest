@@ -1111,7 +1111,7 @@ int main(int argc, char *argv[])
 
 	video::E_DRIVER_TYPE driverType;
 	
-	std::string driverstring = g_settings->get("video_driver");
+	/*std::string driverstring = g_settings->get("video_driver");
 
 	if(driverstring == "null")
 		driverType = video::EDT_NULL;
@@ -1125,10 +1125,10 @@ int main(int argc, char *argv[])
 		driverType = video::EDT_DIRECT3D9;
 	else if(driverstring == "opengl")
 		driverType = video::EDT_OPENGL;
-	else
+	else*/
 	{
-		errorstream<<"WARNING: Invalid video_driver specified; defaulting "
-				"to opengl"<<std::endl;
+		//errorstream<<"WARNING: Invalid video_driver specified; defaulting "
+		//		"to opengl"<<std::endl;
 		driverType = video::EDT_OPENGL;
 	}
 

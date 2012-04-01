@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include "PostProcessBloom.h"
 #include "game.h"
 #include "common_irrlicht.h"
 #include <IGUICheckBox.h>
@@ -55,7 +56,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "quicktune_shortcutter.h"
 #include "clientmap.h"
 #include "sky.h"
-#include "PostProcessBloom.h"
 
 /*
 	Setting this to 1 enables a special camera mode that forces
@@ -623,6 +623,7 @@ void the_game(
 {
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
+    video::IGPUProgrammingServices* gpu = driver->getGPUProgrammingServices(); 
 	
 	// Calculate text height using the font
 	u32 text_height = font->getDimension(L"Random test string").Height;
