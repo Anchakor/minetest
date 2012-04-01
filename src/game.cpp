@@ -1014,9 +1014,17 @@ void the_game(
 	PPE_Bloom_Setup setup;
 
 	setup.sampleDist=0.008;
-	setup.strength=3;
-	setup.multiplier=5;
-	Bloom->initiate(1024,512,setup,smgr);
+	setup.strength=13; // the lesser the more bloom
+	setup.multiplier=2; // the bigger the moore bloom
+	Bloom->initiate(2048,1024,setup,smgr);
+	// comment by shader creator:
+		//every Post process has to be initiated, how to do this depends on the node. 
+		//this time we hav to feed the function with a "PPE_Bloom_Setup" struct. 
+		//this struct holds three values:
+		//float sampleDist;-- selfexplaining, if not, just trie some values
+		//float strength; -- well, the pixel color is calculated: color=orginalPixel+pow(bloomedPixel,strength)*multiplier
+		//float multiplier; --  strength filters dark areas out, while multiplier will make the light ones brighter    
+		//the first two values are the size of the Rendertarget, the las the pointer to the sceneManager
 
 	/*
 		Main loop
@@ -2440,11 +2448,8 @@ void the_game(
 		//infostream<<"smgr->drawAll()"<<std::endl;
 		{
 			TimeTaker timer("smgr");
-			driver->setRenderTarget(Bloom->rt0, true, true, video::SColor(0,0,0,0)); //First Render The entire scene into the renderTarget
+			driver->setRenderTarget(Bloom->rt0, true, true, skycolor); //First Render The entire scene into the renderTarget
 			smgr->drawAll();                                                          //of the PostProcess
-			driver->setRenderTarget(0);                                               //set The Rendertarget back to the main view
-			Bloom->render();                                                          //Then let the  Post Process Render himself
-			//driver->endScene();                                                       //thats all^^ quite simple isn´t it? 
 			scenetime = timer.stop(true);
 		}
 		
@@ -2490,6 +2495,9 @@ void the_game(
 			Post effects
 		*/
 		{
+			driver->setRenderTarget(0);                                               //set The Rendertarget back to the main view
+			Bloom->render();                                                          //Then let the  Post Process Render himself
+			//driver->endScene();                                                       //thats all^^ quite simple isn´t it? 
 			client.getEnv().getClientMap().renderPostFx();
 		}
 
