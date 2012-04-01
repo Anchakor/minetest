@@ -2497,6 +2497,7 @@ void the_game(
 			Post effects
 		*/
 		{
+			// btw there is a bug in irrlicht 1.7.3 and less (fixed in svn) which breaks (inverts) the GUI when using the shader
 			driver->setRenderTarget(0);                                               //set The Rendertarget back to the main view
 			Bloom->render();                                                          //Then let the  Post Process Render himself
 			//driver->endScene();                                                       //thats all^^ quite simple isn´t it? 
